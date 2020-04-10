@@ -21,20 +21,31 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="cmake的简单使用">
+  <meta name="description" content="GRU简单分析  最近了解了一些循环神经网络，随笔记下自己的理解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cmake的简单使用">
-<meta property="og:url" content="http://yoursite.com/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:title" content="GRU参数分析">
+<meta property="og:url" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="郝の博客">
-<meta property="og:description" content="cmake的简单使用">
+<meta property="og:description" content="GRU简单分析  最近了解了一些循环神经网络，随笔记下自己的理解。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-09-08T02:36:30.000Z">
-<meta property="article:modified_time" content="2020-04-10T07:24:18.419Z">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E7%BB%93%E6%9E%84.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%85%AC%E5%BC%8F.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E7%A4%BA%E4%BE%8B.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B01_2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_3_1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B01.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_3.PNG">
+<meta property="article:published_time" content="2020-04-05T12:30:00.000Z">
+<meta property="article:modified_time" content="2020-04-10T11:35:15.884Z">
 <meta property="article:author" content="hao">
-<meta property="article:tag" content="教程">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E7%BB%93%E6%9E%84.PNG">
 
-<link rel="canonical" href="http://yoursite.com/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/">
+<link rel="canonical" href="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/">
 
 
 <script id="page-configurations">
@@ -47,7 +58,7 @@
   };
 </script>
 
-  <title>cmake的简单使用 | 郝の博客</title>
+  <title>GRU参数分析 | 郝の博客</title>
   
 
 
@@ -163,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -176,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          cmake的简单使用
+          GRU参数分析
         </h1>
 
         <div class="post-meta">
@@ -186,14 +197,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-09-08 10:36:30" itemprop="dateCreated datePublished" datetime="2019-09-08T10:36:30+08:00">2019-09-08</time>
+              <time title="创建时间：2020-04-05 20:30:00" itemprop="dateCreated datePublished" datetime="2020-04-05T20:30:00+08:00">2020-04-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-10 15:24:18" itemprop="dateModified" datetime="2020-04-10T15:24:18+08:00">2020-04-10</time>
+                <time title="修改时间：2020-04-10 19:35:15" itemprop="dateModified" datetime="2020-04-10T19:35:15+08:00">2020-04-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -201,7 +212,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">软件使用</span></a>
+                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
                 </span>
             </span>
 
@@ -221,8 +232,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -237,24 +248,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <center>cmake的简单使用</center>
+        <center>GRU简单分析</center>
+
+<p><em>最近了解了一些循环神经网络，随笔记下自己的理解。</em></p>
 <a id="more"></a>
-cmake是一个工程管理工具，帮助工程师更加方便的编译源代码。在一个cmake工程中，用cmake来生成一个makefile文件。然后用make命令，根据makefile中的内容，来编译整个工程。(cmake和makefile类似于高级语言和汇编语言的关系)。
-
-<p>在工程文件中，编写CMakeLists.txt文件来指定编译过程。告诉cmake我们要对这个目录下的文件做什么事情。<br>如：</p>
-<blockquote>
-<p>CMakeLists.txt</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#声明要求的cmake最低版本</span><br><span class="line">cmake_minimum_required( VERSION 2.8 )</span><br><span class="line"></span><br><span class="line">#声明一个cmake工程</span><br><span class="line">project(Helloworld)</span><br><span class="line"></span><br><span class="line">#添加一个可执行程序</span><br><span class="line">#语法: add_executable(程序名 源代码文件)</span><br><span class="line">add_executable(helloworld helloworld.cpp)</span><br></pre></td></tr></table></figure>
-
-<p>下面调用cmake对工程进行分析：  </p>
-<pre><code>cmake .</code></pre><p>cmake会输出一些编译器等信息，然后在当前目录下生成一些中间文件，其中最重要的就是MakeFile。使用再make命令对工程进行编译：</p>
-<pre><code>make .</code></pre><p>如果顺利通过就可得到helloworld可执行程序。</p>
-<p>在这个过程中，cmake生成的中间文件会留在代码文件中。当想要发布代码时，需要把他一个个删除。一种更好的做法是让这些文件都放在一个中间目录中，在编译成功后，把中间文件夹删除即可。所以常见编译cmake工程的做法是：</p>
-<pre><code>mkdir build
-cd build
-cmake ..
-make</code></pre><p>编译完成后只需要将build文件夹删除即可。</p>
+<p>如图片不能正常显示，请点击<a href="https://github.com/Shell-picking/shell/blob/master/_posts/2020-4-5-GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90.md" target="_blank" rel="noopener">原文链接</a>*</p>
+<p>LSTM和GRU解决了传统RNN梯度爆炸和梯度消失的弊端，因此被广泛应用。而GRU作为LSTM的简化版，它比LSTM更容易训练，而且在一些情况下和LSTM的效果相同。个人觉得GRU更具有前景。</p>
+<p>LSTM与GRU的区别推荐这篇<a href="https://blog.csdn.net/u012223913/article/details/77724621" target="_blank" rel="noopener"><em>blog</em></a>。</p>
+<p>GRU解读推荐这篇<a href="https://zhuanlan.zhihu.com/p/32481747" target="_blank" rel="noopener"><em>blog</em></a>。</p>
+<p>GRU是RNN的一种所以其结构和传统一样如下图：<img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E7%BB%93%E6%9E%84.PNG" alt="GRU结构"></p>
+<p>其创新点在于GRU内部采用两个门结构,<em>更新门<em>和</em>重置门*。</em>(之所以称之为门是因为经过sigmoid后映射为0-1,描述各部分有多少可以通过。)*</p>
+<p>GRU内部结构如下图：<img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.PNG" alt="&quot;GRU内部结构&quot;"></p>
+<p><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%85%AC%E5%BC%8F.PNG" alt="&quot;计算公式&quot;"></p>
+<p>由上面公式我们不难计算GRU参数,假设输入特征维度为in,输出为out。</p>
+<pre><code>param(z) = param(r) = param(h) = out*(in+out)+out  if use_bias = true
+param(z) = param(r) = param(h) = out*(in+out)  if use_bias = false</code></pre><p>下面用具体实例说明,为keras实现的GRU，代码如下:</p>
+<pre><code>X = GRU(units = 128, return_sequences = True)(X)</code></pre><p>X为1375*196矩阵,其中1375为时间长度,196为特征数量。如下图:<br><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E7%A4%BA%E4%BE%8B.PNG" alt="示例"></p>
+<p>在这里有很重要一点,是在这层里面所有的GRU参数共享,也就是只需要计算一个GRU内部的参数即可。其中,model.suammry()如下:<img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B01_2.PNG" alt="参数1"><br>导出.h5模型权重如下:<img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_1.PNG" alt><br><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_2.PNG" alt><br><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_3_1.PNG" alt></p>
+<pre><code>124800 = 196*384 + 128*384 + 2*384</code></pre><p>我们用上面推出的计算公式算,in = 196 ,out = 128, parm = 3<em>(128</em>(196+128)+128)</p>
+<p>其中.h5文件中保存的是经过拼接后的矩阵,按x(t)输入和h(t-1),分为kernel和recurrent_kernel。</p>
+<p>未解决问题: keras和tensorflow.keras两个框架参数在偏置上不同。<br><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B01.PNG" alt="参数1"><br><img src="/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/GRU%E5%88%86%E6%9E%90_%E5%8F%82%E6%95%B02_3.PNG" alt></p>
 
     </div>
 
@@ -270,7 +283,7 @@ make</code></pre><p>编译完成后只需要将build文件夹删除即可。</p>
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yoursite.com/2019/09/08/2019-09-08-cmake_%E4%BD%BF%E7%94%A8/" title="cmake的简单使用">http://yoursite.com/2019/09/08/2019-09-08-cmake_使用/</a>
+    <a href="http://yoursite.com/2020/04/05/GRU%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/" title="GRU参数分析">http://yoursite.com/2020/04/05/GRU参数分析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -281,7 +294,7 @@ make</code></pre><p>编译完成后只需要将build文件夹删除即可。</p>
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
           </div>
 
         
@@ -290,12 +303,12 @@ make</code></pre><p>编译完成后只需要将build文件夹删除即可。</p>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/09/07/2019-09-07-sopc%E4%B8%8Esoc_fpga/" rel="prev" title="浅谈soc fpga与sopc">
-      <i class="fa fa-chevron-left"></i> 浅谈soc fpga与sopc
+    <a href="/2019/12/04/xilinx-debug%E6%97%A0%E6%B3%A2%E5%BD%A2%E9%97%AE%E9%A2%98/" rel="prev" title="xilinx debug无波形问题">
+      <i class="fa fa-chevron-left"></i> xilinx debug无波形问题
     </a></div>
       <div class="post-nav-item">
-    <a href="/2019/10/15/2019-10-15-%E6%B5%85%E8%B0%88cpu%E7%9A%84%E5%89%8D%E7%94%9F%E4%BB%8A%E4%B8%96/" rel="next" title="浅谈cpu前生今世">
-      浅谈cpu前生今世 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/06/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D/" rel="next" title="keras网络模型剪枝">
+      keras网络模型剪枝 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
